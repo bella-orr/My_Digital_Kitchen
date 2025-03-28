@@ -3,9 +3,11 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MyDigitalKitchen.RecipeInfo"
              Title="Recipe Info">
-    
-    
-    <VerticalStackLayout>
+
+
+    <VerticalStackLayout Padding="30,0"
+        Spacing="25" HorizontalOptions="FillAndExpand"
+        VerticalOptions="FillAndExpand">
         
        
         

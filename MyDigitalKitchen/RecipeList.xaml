@@ -7,7 +7,7 @@
     <!--This is for the Recipe List page where the user can navigate to different recipes based on the first letter and can filter by more options.-->
 
     <ScrollView>
-        <VerticalStackLayout>
+        <VerticalStackLayout >
     
            <!-- Creates the Main Label and Filter Button-->
             <HorizontalStackLayout HorizontalOptions="FillAndExpand">
@@ -20,7 +20,8 @@
                     x:Name="FilterButton"
                     Text="Filter"
                     Clicked="FilterButton_Clicked"
-                    HorizontalOptions="FillAndExpand"/>
+                    HorizontalOptions="FillAndExpand"
+                    BackgroundColor="LightBlue"/>
 
             </HorizontalStackLayout>
 
@@ -55,7 +56,7 @@
             <!--This button is to help navigate between the pages for testing. It will be removed in the final state-->
             <Button 
                  x:Name="nextButton2"
-                 Text="Next"
+                 Text="Next (Testing Button)"
                  HorizontalOptions="FillAndExpand"
                  Clicked="nextButton2_Clicked"/>
 
