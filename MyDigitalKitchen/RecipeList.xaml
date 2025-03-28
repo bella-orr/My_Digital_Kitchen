@@ -21,7 +21,8 @@
                     Text="Filter"
                     Clicked="FilterButton_Clicked"
                     HorizontalOptions="FillAndExpand"
-                    BackgroundColor="LightBlue"/>
+                    BackgroundColor="LightBlue"
+                    TextColor="Black"/>
 
             </HorizontalStackLayout>
 

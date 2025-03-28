@@ -16,12 +16,15 @@
             <Label 
             x:Name="dishTitle"
             Text="Filler Dish Title"
+            FontAttributes="Bold"
+            FontSize="Medium"
             />
 
             <!--This button is for when the user to edit the recipe-->
             <Button 
             x:Name="EditButton"
             Text="Edit"
+            Background="LightBlue"
             TextColor="Black"
             />
         </HorizontalStackLayout>
