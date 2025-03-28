@@ -1,7 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="MyDigitalKitchen.MainPage">
+             x:Class="MyDigitalKitchen.MainPage"
+             Title="Home Screen">
 
    <!--This is for the homepage where the user search recipes, view favorited, and view recent.-->
     
@@ -14,7 +15,7 @@
            
             <!--This section is for the search bar feature-->
 
-            <HorizontalStackLayout Spacing="10" HorizontalOptions="FillAndExpand" VerticalOptions="StartAndExpand" > <!--Sets the entry and button next to each other-->
+            <HorizontalStackLayout Spacing="10" HorizontalOptions="FillAndExpand" VerticalOptions="Center" > <!--Sets the entry and button next to each other-->
                 <Entry
                     x:Name="SearchEntry"
                     Placeholder="Search Recipes..."
@@ -85,6 +86,13 @@
                 </CollectionView>
             </Border>
             
+            <!--This button is to help navigate between the pages for testing. It will be removed in the final state-->
+            <Button 
+                x:Name="nextButton"
+                Text="Next"
+                HorizontalOptions="FillAndExpand"
+                Clicked="nextButton_Clicked"/>
+
         </VerticalStackLayout>
     </ScrollView>
 

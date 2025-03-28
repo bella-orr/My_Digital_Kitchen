@@ -12,6 +12,11 @@
         {
 
         }
+
+        private void nextButton_Clicked(object sender, EventArgs e)
+        {
+
+        }
     }
 
 }

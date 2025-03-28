@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MyDigitalKitchen.RecipeList"
+             Title="Recipe List">
+
+    <!--This is for the Recipe List page where the user can navigate to different recipes based on the first letter and can filter by more options.-->
+
+    <ScrollView>
+        <VerticalStackLayout>
+    
+           <!-- Creates the Main Label and Filter Button-->
+            <HorizontalStackLayout HorizontalOptions="FillAndExpand">
+                <Label
+                    Text="Recipe List"
+                    FontAttributes="Bold"
+                    HorizontalOptions="StartAndExpand"/>
+                
+                <Button 
+                    x:Name="FilterButton"
+                    Text="Filter"
+                    Clicked="FilterButton_Clicked"
+                    HorizontalOptions="FillAndExpand"/>
+
+            </HorizontalStackLayout>
+
+
+            <!--Creates each section for the alphabet--> <!--Need to set up models folder that will set up the components for the alphahbet-->
+            <CollectionView 
+                x:Name="LetterList"
+                SelectionMode="Single"
+                ItemsSource="{Binding GroupedRecipes}"
+                HeightRequest="600">
+
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <VerticalStackLayout>
+                            <HorizontalStackLayout>
+                                <Button Command="{Binding ExpandCommand}" BackgroundColor="Transparent" HorizontalOptions="FillAndExpand" Text="+ {Binding Letter}" FontAttributes="Bold"/>
+                            </HorizontalStackLayout>
+                            <CollectionView ItemsSource="{Binding Recipes}" Margin="10">
+                                <CollectionView.ItemTemplate>
+                                    <DataTemplate>
+                                        <Label Text="{Binding Name}" FontSize="16" TextColor="Gray"/>
+                                    </DataTemplate>
+                                </CollectionView.ItemTemplate>
+                            </CollectionView>
+                        </VerticalStackLayout>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+                
+               
+            </CollectionView>
+
+            
+
+
+        </VerticalStackLayout>
+    </ScrollView>
+    
+</ContentPage>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MyDigitalKitchen.RecipeInfo"
+             Title="Recipe Info">
+    
+    
+    <VerticalStackLayout>
+        
+        <!--This label will display the chose recipe the user selected-->
+        <Label 
+            x:Name="dishTitle"
+            Text="Filler Dish Title"
+            />
+        
+        <!--This button is for when the user to edit the recipe-->
+        <Button 
+            x:Name="EditButton"
+            Text="Edit"
+            />
+
+        <!---This will create the section for ingredients list of the chosen recipe-->
+        
+        
+        <!---This section shows the ingredients for the chose recipe-->
+        
+        
+        
+    </VerticalStackLayout>
+</ContentPage>
