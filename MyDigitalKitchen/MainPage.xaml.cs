@@ -15,7 +15,7 @@
 
         private void nextButton_Clicked(object sender, EventArgs e)
         {
-
+            Navigation.PushAsync(new RecipeList());
         }
     }
 
