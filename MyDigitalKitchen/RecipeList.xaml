@@ -52,7 +52,13 @@
                
             </CollectionView>
 
-            
+            <!--This button is to help navigate between the pages for testing. It will be removed in the final state-->
+            <Button 
+                 x:Name="nextButton2"
+                 Text="Next"
+                 HorizontalOptions="FillAndExpand"
+                 Clicked="nextButton2_Clicked"/>
+
 
 
         </VerticalStackLayout>

@@ -11,4 +11,9 @@ public partial class RecipeList : ContentPage
     {
 
     }
+
+    private void nextButton2_Clicked(object sender, EventArgs e)
+    {
+
+    }
 }

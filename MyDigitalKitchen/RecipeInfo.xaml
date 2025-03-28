@@ -7,24 +7,76 @@
     
     <VerticalStackLayout>
         
+       
+        
         <!--This label will display the chose recipe the user selected-->
-        <Label 
+        <HorizontalStackLayout Spacing="10" HorizontalOptions="FillAndExpand" VerticalOptions="Center" >
+            <Label 
             x:Name="dishTitle"
             Text="Filler Dish Title"
             />
-        
-        <!--This button is for when the user to edit the recipe-->
-        <Button 
+
+            <!--This button is for when the user to edit the recipe-->
+            <Button 
             x:Name="EditButton"
             Text="Edit"
+            TextColor="Black"
             />
+        </HorizontalStackLayout>
 
         <!---This will create the section for ingredients list of the chosen recipe-->
-        
-        
+        <Label
+             x:Name="IngerdientsLabel"
+             Text="Ingredients"
+             TextColor="Black"
+             FontAttributes="Bold"
+             HorizontalOptions="FillAndExpand"/>
+
+        <Border StrokeThickness="2" Stroke="#CCCCCC" Padding="10" BackgroundColor="White" >
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="10"/>
+            </Border.StrokeShape>
+                <CollectionView 
+                    x:Name="ingredientsList"
+                    HeightRequest="150"
+                    HorizontalOptions="FillAndExpand">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Label Text="{Binding Name}" FontSize="16" />
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+
+                </CollectionView>
+
+        </Border>
+
         <!---This section shows the ingredients for the chose recipe-->
-        
-        
-        
+        <Label
+             x:Name="instructionsLabel"
+             Text="Instructions"
+             TextColor="Black"
+             FontAttributes="Bold"
+             HorizontalOptions="FillAndExpand"/>
+
+        <Border StrokeThickness="2" Stroke="#CCCCCC" Padding="10" BackgroundColor="White">
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="10"/>
+            </Border.StrokeShape>
+            <CollectionView 
+                x:Name="InstructionsList"
+                HeightRequest="150"
+                HorizontalOptions="FillAndExpand">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Label Text="{Binding Name}" FontSize="16" />
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+            </CollectionView>
+        </Border>
+
+       
+
+
+
     </VerticalStackLayout>
 </ContentPage>
