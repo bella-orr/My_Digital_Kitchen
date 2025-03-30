@@ -7,7 +7,8 @@
     <!--This is for the Recipe List page where the user can navigate to different recipes based on the first letter and can filter by more options.-->
 
     <ScrollView>
-        <VerticalStackLayout >
+        <VerticalStackLayout Spacing="25" HorizontalOptions="FillAndExpand"
+VerticalOptions="FillAndExpand" >
     
            <!-- Creates the Main Label and Filter Button-->
             <HorizontalStackLayout HorizontalOptions="FillAndExpand">
@@ -22,7 +23,8 @@
                     Clicked="FilterButton_Clicked"
                     HorizontalOptions="FillAndExpand"
                     BackgroundColor="LightBlue"
-                    TextColor="Black"/>
+                    TextColor="Black"
+                    />
 
             </HorizontalStackLayout>
 
@@ -38,9 +40,9 @@
                     <DataTemplate>
                         <VerticalStackLayout>
                             <HorizontalStackLayout>
-                                <Button Command="{Binding ExpandCommand}" BackgroundColor="Transparent" HorizontalOptions="FillAndExpand" Text="+ {Binding Letter}" FontAttributes="Bold"/>
+                                <Button Command="{Binding ExpandCommand}" BackgroundColor="Transparent" HorizontalOptions="FillAndExpand" Text="{Binding Letter}" TextColor="Black" FontAttributes="Bold"/>
                             </HorizontalStackLayout>
-                            <CollectionView ItemsSource="{Binding Recipes}" Margin="10">
+                            <CollectionView ItemsSource="{Binding Recipes}" Margin="10" IsVisible="{Binding IsExpanded}">
                                 <CollectionView.ItemTemplate>
                                     <DataTemplate>
                                         <Label Text="{Binding Name}" FontSize="16" TextColor="Gray"/>

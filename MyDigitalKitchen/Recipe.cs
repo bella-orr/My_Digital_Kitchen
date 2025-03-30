@@ -18,5 +18,9 @@ namespace MyDigitalKitchen
         public string Notes { get; set; }
         public bool IsFavorite { get; set; }
         public DateTime LastAccessed { get; set; }
+
+
+        //this represents the recipe
+        public string Name { get; set; }
     }
 }
