@@ -1,17 +1,18 @@
-﻿using System;
+﻿using MyDigitalKitchen.Models;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MyDigitalKitchen
+namespace MyDigitalKitchen.Models.ViewModels
 {
     public class RecipeListViewModel
     {
         public ObservableCollection<RecipeGroup> GroupedRecipes { get; set; }
 
-        public RecipeListViewModel() 
+        public RecipeListViewModel()
         {
 
             //for testing

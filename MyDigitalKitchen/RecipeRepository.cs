@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using MyDigitalKitchen.Helpers;
+using MyDigitalKitchen.Models;
 
 namespace MyDigitalKitchen
 {
