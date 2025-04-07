@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SQLite;
 
 namespace MyDigitalKitchen.Models
 {
     public class Recipe
     {
+        //this defined the properties of a recipe
         public int Id { get; set; }
         public string Title { get; set; }
         public string MealType { get; set; }
@@ -19,8 +21,10 @@ namespace MyDigitalKitchen.Models
         public bool IsFavorite { get; set; }
         public DateTime LastAccessed { get; set; }
 
+        //for filter
+        public DateTime DateAdded { get; set; } = DateTime.Now;
 
-        //this represents the recipe
-        public string Name { get; set; }
+
+        
     }
 }

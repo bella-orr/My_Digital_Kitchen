@@ -55,8 +55,14 @@
         <Button
             x:Name="saveButton"
             Text="Save"
-            HorizontalOptions="FillAndExpand"/>
+            HorizontalOptions="FillAndExpand"
+            Clicked="saveButton_Clicked"/>
 
+        <Label 
+            x:Name="outputLabel"
+            TextColor="Purple"
+            HorizontalOptions="FillAndExpand"
+            IsVisible="False"/>
 
     </VerticalStackLayout>
 </ContentPage>

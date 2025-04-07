@@ -9,24 +9,35 @@
     <ScrollView>
         <VerticalStackLayout Spacing="25" HorizontalOptions="FillAndExpand"
 VerticalOptions="FillAndExpand" >
+            
+            <!--Filters by the Meal Type-->
+            <Picker x:Name="MealTypePicker"
+            Title="Filter by Meal Type"
+            SelectedIndexChanged="MealTypePicker_SelectedIndexChanged">
+                <Picker.ItemsSource>
+                    <x:Array Type="{x:Type x:String}">
+                        <x:String>All</x:String>
+                        <x:String>Breakfast</x:String>
+                        <x:String>Lunch</x:String>
+                        <x:String>Dinner</x:String>
+                        <x:String>Snack</x:String>
+                    </x:Array>
+                </Picker.ItemsSource>
+            </Picker>
 
-            <!-- Creates the Main Label and Filter Button-->
-            <HorizontalStackLayout HorizontalOptions="FillAndExpand">
-                <Label
-                    Text="Recipe List"
-                    FontAttributes="Bold"
-                    HorizontalOptions="StartAndExpand"/>
+            <!--Filters by the data added-->
+            <Picker x:Name="DateSortPicker"
+            Title="Sort by Date"
+            SelectedIndexChanged="DateSortPicker_SelectedIndexChanged">
+                <Picker.ItemsSource>
+                    <x:Array Type="{x:Type x:String}">
+                        <x:String>Newest First</x:String>
+                        <x:String>Oldest First</x:String>
+                    </x:Array>
+                </Picker.ItemsSource>
+            </Picker>
 
-                <Button 
-                    x:Name="FilterButton"
-                    Text="Filter"
-                    Clicked="FilterButton_Clicked"
-                    HorizontalOptions="FillAndExpand"
-                    BackgroundColor="LightBlue"
-                    TextColor="Black"
-                    />
 
-            </HorizontalStackLayout>
 
 
             <!--Creates each section for the alphabet-->
@@ -64,7 +75,7 @@ VerticalOptions="FillAndExpand" >
                  HorizontalOptions="FillAndExpand"
                  Clicked="nextButton2_Clicked"/>
 
-
+        
 
 
         </VerticalStackLayout>
