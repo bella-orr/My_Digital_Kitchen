@@ -9,14 +9,14 @@
     <ScrollView>
         <VerticalStackLayout Spacing="25" HorizontalOptions="FillAndExpand"
 VerticalOptions="FillAndExpand" >
-    
-           <!-- Creates the Main Label and Filter Button-->
+
+            <!-- Creates the Main Label and Filter Button-->
             <HorizontalStackLayout HorizontalOptions="FillAndExpand">
                 <Label
                     Text="Recipe List"
                     FontAttributes="Bold"
                     HorizontalOptions="StartAndExpand"/>
-                
+
                 <Button 
                     x:Name="FilterButton"
                     Text="Filter"
@@ -29,7 +29,8 @@ VerticalOptions="FillAndExpand" >
             </HorizontalStackLayout>
 
 
-            <!--Creates each section for the alphabet--> <!--Need to set up models folder that will set up the components for the alphahbet-->
+            <!--Creates each section for the alphabet-->
+            <!--Need to set up models folder that will set up the components for the alphahbet-->
             <CollectionView 
                 x:Name="LetterList"
                 SelectionMode="Single"
@@ -45,15 +46,15 @@ VerticalOptions="FillAndExpand" >
                             <CollectionView ItemsSource="{Binding Recipes}" Margin="10" IsVisible="{Binding IsExpanded}">
                                 <CollectionView.ItemTemplate>
                                     <DataTemplate>
-                                        <Label Text="{Binding Name}" FontSize="16" TextColor="Gray"/>
+                                        <Label Text="{Binding Recipe.Title}" FontSize="16" TextColor="Gray"/>
                                     </DataTemplate>
                                 </CollectionView.ItemTemplate>
                             </CollectionView>
                         </VerticalStackLayout>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
-                
-               
+
+
             </CollectionView>
 
             <!--This button is to help navigate between the pages for testing. It will be removed in the final state-->
@@ -65,7 +66,8 @@ VerticalOptions="FillAndExpand" >
 
 
 
+
         </VerticalStackLayout>
     </ScrollView>
-    
+
 </ContentPage>

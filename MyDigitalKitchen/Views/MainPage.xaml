@@ -4,38 +4,50 @@
              x:Class="MyDigitalKitchen.MainPage"
              Title="Home Screen">
 
-   <!--This is for the homepage where the user search recipes, view favorited, and view recent.-->
-    
-  
+    <!--This is for the homepage where the user search recipes, view favorited, and view recent.-->
+
+
     <ScrollView>
         <VerticalStackLayout
             Padding="30,0"
             Spacing="25" HorizontalOptions="FillAndExpand"
             VerticalOptions="FillAndExpand">
-           
+
             <!--This section is for the search bar feature-->
 
-            <HorizontalStackLayout Spacing="10" HorizontalOptions="FillAndExpand" VerticalOptions="Center" > <!--Sets the entry and button next to each other-->
-                <Entry
-                    x:Name="SearchEntry"
-                    Placeholder="Search Recipes..."
-                    PlaceholderColor="Grey"
-                    TextColor= "Black"
-                    HorizontalOptions="FillAndExpand"
+            <Grid ColumnDefinitions="*, Auto" Padding="0,10,0,0">
+                <HorizontalStackLayout Grid.Column="0" Spacing="10" HorizontalOptions="StartAndExpand" VerticalOptions="Center" >
+                    <!--Sets the entry and button next to each other-->
+                    <Entry
+                        x:Name="SearchEntry"
+                        Placeholder="Search Recipes..."
+                        PlaceholderColor="Grey"
+                        TextColor= "Black"
+                        HorizontalOptions="FillAndExpand"
                    
-                    />
+                        />
 
-                <Button
-                    x:Name="SearchButton"
-                    Text="Search"
-                    Clicked="SearchButton_Clicked" 
-                    HorizontalOptions="End"
-                    BackgroundColor="LightBlue"
-                    TextColor="Black"
+                    <Button
+                        x:Name="SearchButton"
+                        Text="Search"
+                        Clicked="SearchButton_Clicked" 
+                        HorizontalOptions="End"
+                        BackgroundColor="LightBlue"
+                        TextColor="Black"
                     
-                    />
-            </HorizontalStackLayout>
+                        />
+                </HorizontalStackLayout>
 
+                <Button 
+                     Grid.Column="1"
+                     x:Name="addButton"
+                     Text="+"
+                     FontSize="24"
+                     WidthRequest="40"
+                     HeightRequest="40"
+                     Clicked="addButton_Clicked"
+                     />
+            </Grid>
 
 
             <!--This section is for the recent recipes-->
@@ -56,7 +68,7 @@
                 HorizontalOptions="FillAndExpand">
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
-                            <Label Text="{Binding Name}" FontSize="16" />
+                            <Label Text="{Binding Recipe.Title}" FontSize="16" />
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
 
@@ -83,18 +95,20 @@
                 HorizontalOptions="FillAndExpand">
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
-                            <Label Text="{Binding Name}" FontSize="16" />
+                            <Label Text="{Binding Recipe.Title}" FontSize="16" />
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
                 </CollectionView>
             </Border>
-            
-            <!--This button is to help navigate between the pages for testing. It will be removed in the final state-->
+
+
             <Button 
                 x:Name="nextButton"
-                Text="Next (Testing Button)"
+                Text="My Recipes >"
                 HorizontalOptions="FillAndExpand"
                 Clicked="nextButton_Clicked"/>
+
+
 
         </VerticalStackLayout>
     </ScrollView>

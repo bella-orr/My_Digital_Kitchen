@@ -1,5 +1,6 @@
 
 using System.Collections.ObjectModel;
+using MyDigitalKitchen.Models.ViewModels;
 
 namespace MyDigitalKitchen;
 
@@ -8,12 +9,12 @@ public partial class RecipeList : ContentPage
 
 
 
-	public RecipeList()
-	{
-		InitializeComponent();
+    public RecipeList()
+    {
+        InitializeComponent();
 
         //Ensures ViewModel is set
-        BindingContext = new RecipeListViewModel(); 
+        BindingContext = new RecipeListViewModel();
 
     }
 
@@ -26,8 +27,6 @@ public partial class RecipeList : ContentPage
     {
         Navigation.PushAsync(new RecipeInfo());
     }
-
-
 
 
 }

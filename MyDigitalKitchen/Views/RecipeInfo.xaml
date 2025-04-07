@@ -8,9 +8,9 @@
     <VerticalStackLayout Padding="30,0"
         Spacing="25" HorizontalOptions="FillAndExpand"
         VerticalOptions="FillAndExpand">
-        
-       
-        
+
+
+
         <!--This label will display the chose recipe the user selected-->
         <HorizontalStackLayout Spacing="10" HorizontalOptions="FillAndExpand" VerticalOptions="Center" >
             <Label 
@@ -41,17 +41,17 @@
             <Border.StrokeShape>
                 <RoundRectangle CornerRadius="10"/>
             </Border.StrokeShape>
-                <CollectionView 
+            <CollectionView 
                     x:Name="ingredientsList"
                     HeightRequest="150"
                     HorizontalOptions="FillAndExpand">
-                    <CollectionView.ItemTemplate>
-                        <DataTemplate>
-                            <Label Text="{Binding Name}" FontSize="16" />
-                        </DataTemplate>
-                    </CollectionView.ItemTemplate>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Label Text="{Binding Name}" FontSize="16" />
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
 
-                </CollectionView>
+            </CollectionView>
 
         </Border>
 
@@ -71,15 +71,15 @@
                 x:Name="InstructionsList"
                 HeightRequest="150"
                 HorizontalOptions="FillAndExpand">
-                    <CollectionView.ItemTemplate>
-                        <DataTemplate>
-                            <Label Text="{Binding Name}" FontSize="16" />
-                        </DataTemplate>
-                    </CollectionView.ItemTemplate>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Label Text="{Binding Name}" FontSize="16" />
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
             </CollectionView>
         </Border>
 
-       
+
 
 
 
