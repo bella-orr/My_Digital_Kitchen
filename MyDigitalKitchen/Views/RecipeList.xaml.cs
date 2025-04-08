@@ -28,5 +28,8 @@ public partial class RecipeList : ContentPage
         Navigation.PushAsync(new RecipeInfo());
     }
 
+    private void MealTypePicker_SelectedIndexChanged(object sender, EventArgs e)
+    {
 
+    }
 }
