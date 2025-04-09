@@ -13,11 +13,13 @@ namespace MyDigitalKitchen.Models.ViewModels
         public ObservableCollection<RecipeGroup> GroupedRecipes { get; set; }
         private List<Recipe> _allRecipes = new();
 
+        public List<Recipe> AllRecipes => _allRecipes; 
+
         private string _selectedMealType = "All";
         private string _selectedDateSort = "Newest First";
+
         public RecipeListViewModel()
         {
-
             //for testing
             GroupedRecipes = new ObservableCollection<RecipeGroup>
             {
@@ -38,7 +40,7 @@ namespace MyDigitalKitchen.Models.ViewModels
                 })
             };
 
+            _allRecipes.AddRange(GroupedRecipes.SelectMany(g => g.Recipes));
         }
-
     }
 }
