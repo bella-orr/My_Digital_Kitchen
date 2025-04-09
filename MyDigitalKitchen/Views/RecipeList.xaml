@@ -29,8 +29,7 @@ VerticalOptions="FillAndExpand" >
             </HorizontalStackLayout>
 
 
-            <!--Creates each section for the alphabet-->
-            <!--Need to set up models folder that will set up the components for the alphahbet-->
+           
             <CollectionView 
                 x:Name="LetterList"
                 SelectionMode="Single"
@@ -46,7 +45,7 @@ VerticalOptions="FillAndExpand" >
                             <CollectionView ItemsSource="{Binding Recipes}" Margin="10" IsVisible="{Binding IsExpanded}">
                                 <CollectionView.ItemTemplate>
                                     <DataTemplate>
-                                        <Label Text="{Binding Recipe.Title}" FontSize="16" TextColor="Gray"/>
+                                        <Label Text="{Binding Title}" FontSize="16" TextColor="Gray" />
                                     </DataTemplate>
                                 </CollectionView.ItemTemplate>
                             </CollectionView>

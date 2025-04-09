@@ -1,46 +1,56 @@
 ﻿using MyDigitalKitchen.Models;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MyDigitalKitchen.Models.ViewModels
 {
     public class RecipeListViewModel
     {
         public ObservableCollection<RecipeGroup> GroupedRecipes { get; set; }
-        private List<Recipe> _allRecipes = new();
-
-        public List<Recipe> AllRecipes => _allRecipes; 
-
-        private string _selectedMealType = "All";
-        private string _selectedDateSort = "Newest First";
 
         public RecipeListViewModel()
         {
-            //for testing
-            GroupedRecipes = new ObservableCollection<RecipeGroup>
-            {
-                new RecipeGroup("A", new List<Recipe>
-                {
-                    new Recipe { Title = "Apple Pie" },
-                    new Recipe { Title = "Avocado Toast" }
-                }),
-                new RecipeGroup("B", new List<Recipe>
-                {
-                    new Recipe { Title = "Banana Bread" },
-                    new Recipe { Title = "Beef Stew" }
-                }),
-                new RecipeGroup("C", new List<Recipe>
-                {
-                    new Recipe { Title = "Chocolate Cake" },
-                    new Recipe { Title = "Chicken Parmesan" }
-                })
-            };
+            GroupedRecipes = new ObservableCollection<RecipeGroup>();
+            LoadAndGroupRecipes();
+        }
 
-            _allRecipes.AddRange(GroupedRecipes.SelectMany(g => g.Recipes));
+        private void LoadAndGroupRecipes()
+        {
+            var allRecipes = RecipeRepository.Instance.GetAllRecipes(); // Get recipes from the repository
+            GroupedRecipes.Clear();
+
+            if (allRecipes != null && allRecipes.Any())
+            {
+                var grouped = allRecipes
+                    .OrderBy(r => r.Title)
+                    .GroupBy(r =>
+                    {
+                        if (string.IsNullOrEmpty(r.Title))
+                        {
+                            return "#";
+                        }
+                        char firstChar = r.Title[0];
+                        if (char.IsLetter(firstChar))
+                        {
+                            return firstChar.ToString().ToUpper();
+                        }
+                        else if (char.IsDigit(firstChar))
+                        {
+                            return "#";
+                        }
+                        else
+                        {
+                            return "#";
+                        }
+                    })
+                    .Select(g => new RecipeGroup(g.Key, g.ToList()))
+                    .OrderBy(g => g.Letter == "#" ? 27 : g.Letter[0]);
+
+                foreach (var group in grouped)
+                {
+                    GroupedRecipes.Add(group);
+                }
+            }
         }
     }
 }

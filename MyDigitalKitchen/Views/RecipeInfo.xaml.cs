@@ -10,11 +10,11 @@ public partial class RecipeInfo : ContentPage
     {
         InitializeComponent();
         CurrentRecipe = recipe;
-        BindingContext = this; // Set the BindingContext to this page
+        BindingContext = this; 
         UpdateUI();
     }
 
-    public RecipeInfo() // Default constructor (might be needed by the navigation system)
+    public RecipeInfo() 
     {
         InitializeComponent();
     }
@@ -24,8 +24,7 @@ public partial class RecipeInfo : ContentPage
         if (CurrentRecipe != null)
         {
             dishTitle.Text = CurrentRecipe.Title;
-            // You'll need to bind your ingredients and instructions CollectionViews here
-            // For now, let's just set some placeholder text
+            
             ingredientsList.ItemsSource = CurrentRecipe.Ingredients;
             InstructionsList.ItemsSource = new List<string> { CurrentRecipe.Directions };
         }
