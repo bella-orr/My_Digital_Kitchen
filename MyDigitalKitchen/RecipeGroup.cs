@@ -36,7 +36,7 @@ namespace MyDigitalKitchen
         {
             Letter = letter;
             IsExpanded = false;
-            _recipes = new ObservableCollection<Recipe>(recipes.ToObservableCollection()); // Use the extension method
+            _recipes = new ObservableCollection<Recipe>(recipes.ToObservableCollection()); 
             ExpandCommand = new Command(Toggle);
         }
 
@@ -45,7 +45,7 @@ namespace MyDigitalKitchen
             IsExpanded = !IsExpanded;
             OnPropertyChanged(nameof(IsExpanded));
             OnPropertyChanged(nameof(Recipes));
-            Console.WriteLine($"Toggled {Letter}: IsExpanded = {IsExpanded}, Recipe Count = {Recipes.Count}");
+            
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

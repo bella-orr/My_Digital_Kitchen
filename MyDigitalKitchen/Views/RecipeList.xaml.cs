@@ -13,6 +13,7 @@ public partial class RecipeList : ContentPage
         BindingContext = new RecipeListViewModel();
     }
 
+    //for the filter button, this will be implemented later
     private void FilterButton_Clicked(object sender, EventArgs e)
     {
         DisplayAlert("Filter", "Filter options will be added later", "OK");

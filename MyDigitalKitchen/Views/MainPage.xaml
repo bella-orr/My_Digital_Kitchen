@@ -36,7 +36,9 @@
                         TextColor="Black"
                         />
                 </HorizontalStackLayout>
-
+                
+                
+                <!--This button is for the user to add a new recipe-->
                 <Button 
                      Grid.Column="1"
                      x:Name="addButton"
@@ -67,6 +69,7 @@
                 HorizontalOptions="FillAndExpand">
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
+                            <!-- This will display the recipe-->
                             <Label Text="{Binding Recipe.Title}" FontSize="16" />
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
@@ -94,6 +97,7 @@
                 HorizontalOptions="FillAndExpand">
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
+                            <!--This will display the recipes that are favorited-->
                             <Label Text="{Binding Recipe.Title}" FontSize="16" />
                         </DataTemplate>
                     </CollectionView.ItemTemplate>

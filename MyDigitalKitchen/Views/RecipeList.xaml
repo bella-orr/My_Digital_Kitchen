@@ -28,7 +28,7 @@ VerticalOptions="FillAndExpand" >
             </HorizontalStackLayout>
 
 
-           
+            <!--displays the groups of recipes based on the first letter of their title.-->
             <CollectionView 
                 x:Name="LetterList"
                 SelectionMode="None"

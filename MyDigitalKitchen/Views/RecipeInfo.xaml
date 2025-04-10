@@ -12,22 +12,39 @@
 
 
         <!--This label will display the chose recipe the user selected-->
-        <HorizontalStackLayout Spacing="10" HorizontalOptions="FillAndExpand" VerticalOptions="Center" >
-            <Label 
-            x:Name="dishTitle"
-            Text=""
-            FontAttributes="Bold"
-            FontSize="Medium"
-            />
+      
+            <Grid ColumnDefinitions="*, Auto, Auto" RowDefinitions="Auto" HorizontalOptions="FillAndExpand">
+                <Label 
+                    x:Name="dishTitle"
+                    Text=""
+                    FontAttributes="Bold"
+                    FontSize="Medium"
+                    Grid.Column="0"
+                    />
 
-            <!--This button is for when the user to edit the recipe-->
-            <Button 
-            x:Name="EditButton"
-            Text="Edit"
-            Background="LightBlue"
-            TextColor="Black"
-            Clicked="EditButton_Clicked"/>
-        </HorizontalStackLayout>
+
+                <!--This button is for when the user to edit the recipe-->
+                <Button 
+                    x:Name="EditButton"
+                    Text="Edit"
+                    Background="LightBlue"
+                    TextColor="Black"
+                    Clicked="EditButton_Clicked"
+                    FontAttributes="Bold"
+                    Grid.Column="2"/>
+
+                <!--This Button is to favorite a recipe-->
+                <Button
+                    x:Name="FavoriteButton"
+                    Background="Red"
+                    TextColor="White"
+                    FontAttributes="Bold"
+                    Text="Favorite ♡"
+                    Grid.Column="1"
+                    Clicked="FavoriteButton_Clicked"/>
+            </Grid>
+
+     
 
         <!---This will create the section for ingredients list of the chosen recipe-->
         <Label
@@ -47,6 +64,7 @@
                     HorizontalOptions="FillAndExpand">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
+                        <!--Displays the llist of ingredients-->
                         <Label Text="{Binding .}" FontSize="16" />
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
@@ -73,6 +91,7 @@
                 HorizontalOptions="FillAndExpand">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
+                        <!--Displays the instructions-->
                         <Label Text="{Binding .}" FontSize="16" />
                     </DataTemplate>
                 </CollectionView.ItemTemplate>

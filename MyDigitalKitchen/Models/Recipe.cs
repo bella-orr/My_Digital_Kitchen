@@ -21,8 +21,7 @@ namespace MyDigitalKitchen.Models
         public bool IsFavorite { get; set; }
         public DateTime LastAccessed { get; set; }
 
-        //for filter
-        public DateTime DateAdded { get; set; } = DateTime.Now;
+        
 
 
         

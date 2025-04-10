@@ -14,17 +14,12 @@ public partial class RecipeInfo : ContentPage
         UpdateUI();
     }
 
-    public RecipeInfo() 
-    {
-        InitializeComponent();
-    }
-
+    //Updates the UI with the current recipe's details
     private void UpdateUI()
     {
         if (CurrentRecipe != null)
         {
             dishTitle.Text = CurrentRecipe.Title;
-        
 
             ingredientsList.ItemsSource = CurrentRecipe.Ingredients;
 
@@ -39,8 +34,14 @@ public partial class RecipeInfo : ContentPage
         }
     }
 
+    //Set up for the Edit button which will be implemented later
     private void EditButton_Clicked(object sender, EventArgs e)
     {
         DisplayAlert("Edit", "Edit options will be added later", "OK");
+    }
+
+    private void FavoriteButton_Clicked(object sender, EventArgs e)
+    {
+        DisplayAlert("Favorite", "Favorite options will be added later", "OK");
     }
 }

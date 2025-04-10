@@ -13,13 +13,13 @@
                 x:Name="TitleLabel"
                 Text="Title: "
                 FontAttributes="Bold"/>
+        
+        <!--These are for the entries for the different components of the recipe-->
         <Entry
                  x:Name="RecipeNameEntry"
                  Placeholder="eg. Pancakes"
                  PlaceholderColor="Gray"
                  HorizontalOptions="FillAndExpand" />
-
-
 
         <Label
                  x:Name="CategoryLabel"
@@ -52,12 +52,14 @@
                HeightRequest="100"
                HorizontalOptions="FillAndExpand" />
 
+        <!--This button is for the user to save the recipe-->
         <Button
             x:Name="saveButton"
             Text="Save"
             HorizontalOptions="FillAndExpand"
             Clicked="saveButton_Clicked"/>
 
+        <!--This label will display the to the user if the recipe was saved or if the fields need to be filled out-->
         <Label 
             x:Name="outputLabel"
             TextColor="Purple"
