@@ -69,7 +69,5 @@ public partial class RecipeList : ContentPage
         BindingContext = new RecipeListViewModel();
     }
 
-    private void MealTypePicker_SelectedIndexChanged(object sender, EventArgs e)
-    {
-    }
+    
 }
