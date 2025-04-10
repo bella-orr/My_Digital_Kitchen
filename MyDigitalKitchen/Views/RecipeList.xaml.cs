@@ -44,6 +44,15 @@ public partial class RecipeList : ContentPage
         Navigation.PushAsync(new RecipeInfo());
     }
 
+    private void Recipe_Selected(object sender, SelectionChangedEventArgs e) 
+    {
+        if (e.CurrentSelection.FirstOrDefault() is Recipe selectedRecipe)
+        {
+            Navigation.PushAsync(new RecipeInfo(selectedRecipe));
+            ((CollectionView)sender).SelectedItem = null;
+        }
+    }
+
     private void MealTypePicker_SelectedIndexChanged(object sender, EventArgs e)
     {
     }

@@ -11,11 +11,10 @@
 VerticalOptions="FillAndExpand" >
 
             <!-- Creates the Main Label and Filter Button-->
-            <HorizontalStackLayout HorizontalOptions="FillAndExpand">
-                <Label
-                    Text="Recipe List"
-                    FontAttributes="Bold"
-                    HorizontalOptions="StartAndExpand"/>
+            <HorizontalStackLayout Padding="30,0"
+                Spacing="25" HorizontalOptions="FillAndExpand"
+                VerticalOptions="FillAndExpand">
+                
 
                 <Button 
                     x:Name="FilterButton"
@@ -32,23 +31,30 @@ VerticalOptions="FillAndExpand" >
            
             <CollectionView 
                 x:Name="LetterList"
-                SelectionMode="Single"
+                SelectionMode="None"
                 ItemsSource="{Binding GroupedRecipes}"
                 HeightRequest="600">
 
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
                         <VerticalStackLayout>
-                            <HorizontalStackLayout>
-                                <Button Command="{Binding ExpandCommand}" BackgroundColor="Transparent" HorizontalOptions="FillAndExpand" Text="{Binding Letter}" TextColor="Black" FontAttributes="Bold"/>
+                            
+                            <HorizontalStackLayout >
+                                <HorizontalStackLayout.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding ExpandCommand}" />
+                                </HorizontalStackLayout.GestureRecognizers>
+                                <Button Command="{Binding ExpandCommand}" BackgroundColor="Transparent" HorizontalOptions="FillAndExpand" Text="{Binding Letter}" TextColor="Black" FontAttributes="Bold" />
                             </HorizontalStackLayout>
-                            <CollectionView ItemsSource="{Binding Recipes}" Margin="10" IsVisible="{Binding IsExpanded}">
+                            
+                            
+                            <CollectionView ItemsSource="{Binding Recipes}" Margin="10" IsVisible="{Binding IsExpanded}" SelectionMode="Single" SelectionChanged="Recipe_Selected">
                                 <CollectionView.ItemTemplate>
                                     <DataTemplate>
                                         <Label Text="{Binding Title}" FontSize="16" TextColor="Gray" />
                                     </DataTemplate>
                                 </CollectionView.ItemTemplate>
                             </CollectionView>
+                            
                         </VerticalStackLayout>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
