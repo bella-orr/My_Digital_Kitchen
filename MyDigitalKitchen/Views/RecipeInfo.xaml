@@ -55,7 +55,7 @@
 
         </Border>
 
-        <!---This section shows the ingredients for the chose recipe-->
+        <!---This section shows the instructions for the chose recipe-->
         <Label
              x:Name="instructionsLabel"
              Text="Instructions"
