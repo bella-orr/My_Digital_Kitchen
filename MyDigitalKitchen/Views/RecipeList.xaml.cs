@@ -18,10 +18,7 @@ public partial class RecipeList : ContentPage
         DisplayAlert("Filter", "Filter options will be added later", "OK");
     }
 
-    private void nextButton2_Clicked(object sender, EventArgs e)
-    {
-        Navigation.PushAsync(new RecipeInfo());
-    }
+
 
     //gets the recipe selected from the collection view and passes it to the RecipeInfo page
     private void Recipe_Selected(object sender, SelectionChangedEventArgs e) 

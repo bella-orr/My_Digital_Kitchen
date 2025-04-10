@@ -12,7 +12,7 @@ namespace MyDigitalKitchen
 
         private void SearchButton_Clicked(object sender, EventArgs e)
         {
-
+            DisplayAlert("Search", "Search options will be added later", "OK");
         }
 
         private void nextButton_Clicked(object sender, EventArgs e)

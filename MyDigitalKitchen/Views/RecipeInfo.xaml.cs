@@ -38,4 +38,9 @@ public partial class RecipeInfo : ContentPage
             InstructionsList.ItemsSource = instructions;
         }
     }
+
+    private void EditButton_Clicked(object sender, EventArgs e)
+    {
+        DisplayAlert("Edit", "Edit options will be added later", "OK");
+    }
 }

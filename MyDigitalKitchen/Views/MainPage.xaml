@@ -34,7 +34,6 @@
                         HorizontalOptions="End"
                         BackgroundColor="LightBlue"
                         TextColor="Black"
-                    
                         />
                 </HorizontalStackLayout>
 

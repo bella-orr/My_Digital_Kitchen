@@ -26,7 +26,7 @@
             Text="Edit"
             Background="LightBlue"
             TextColor="Black"
-            />
+            Clicked="EditButton_Clicked"/>
         </HorizontalStackLayout>
 
         <!---This will create the section for ingredients list of the chosen recipe-->
