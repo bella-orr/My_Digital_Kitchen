@@ -24,9 +24,18 @@ public partial class RecipeInfo : ContentPage
         if (CurrentRecipe != null)
         {
             dishTitle.Text = CurrentRecipe.Title;
-            
+        
+
             ingredientsList.ItemsSource = CurrentRecipe.Ingredients;
-            InstructionsList.ItemsSource = new List<string> { CurrentRecipe.Directions };
+
+            // Split the directions string into steps
+            var instructions = CurrentRecipe.Directions
+                .Split(new[] { '\n', '\r', ',' , '.' }, StringSplitOptions.RemoveEmptyEntries)
+                .Select(step => step.Trim()) // removes spaces before/after each step
+                .Where(step => !string.IsNullOrWhiteSpace(step))
+                .ToList();
+
+            InstructionsList.ItemsSource = instructions;
         }
     }
 }

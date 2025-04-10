@@ -15,7 +15,7 @@
         <HorizontalStackLayout Spacing="10" HorizontalOptions="FillAndExpand" VerticalOptions="Center" >
             <Label 
             x:Name="dishTitle"
-            Text="Filler Dish Title"
+            Text=""
             FontAttributes="Bold"
             FontSize="Medium"
             />
@@ -47,7 +47,7 @@
                     HorizontalOptions="FillAndExpand">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <Label Text="{Binding Name}" FontSize="16" />
+                        <Label Text="{Binding .}" FontSize="16" />
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
 
@@ -73,7 +73,7 @@
                 HorizontalOptions="FillAndExpand">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <Label Text="{Binding Name}" FontSize="16" />
+                        <Label Text="{Binding .}" FontSize="16" />
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>

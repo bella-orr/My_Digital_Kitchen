@@ -46,11 +46,27 @@ public partial class RecipeList : ContentPage
 
     private void Recipe_Selected(object sender, SelectionChangedEventArgs e) 
     {
-        if (e.CurrentSelection.FirstOrDefault() is Recipe selectedRecipe)
+        var selectedRecipe = e.CurrentSelection.FirstOrDefault() as Recipe;
+        if (selectedRecipe != null) 
         {
             Navigation.PushAsync(new RecipeInfo(selectedRecipe));
-            ((CollectionView)sender).SelectedItem = null;
+
+            // Deselect the item after navigation
+            ((CollectionView)sender).SelectedItem = null; 
         }
+
+        
+    }
+
+    //this will aloow the user to select the same recipe again if they toggle backwards. It clears the selction of the collection group of the letterList
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+
+        //resets the selected item in the outer CollectionView
+        LetterList.SelectedItem = null;
+
+        BindingContext = new RecipeListViewModel();
     }
 
     private void MealTypePicker_SelectedIndexChanged(object sender, EventArgs e)
