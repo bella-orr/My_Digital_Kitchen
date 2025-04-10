@@ -13,27 +13,6 @@ public partial class RecipeList : ContentPage
         BindingContext = new RecipeListViewModel();
     }
 
-    private void LetterList_ItemSelected(object sender, SelectedItemChangedEventArgs e)
-    {
-        if (e.SelectedItem is RecipeGroup selectedGroup)
-        {
-            if (selectedGroup.Recipes != null && selectedGroup.Recipes.Any())
-            {
-                Recipe selectedRecipe = selectedGroup.Recipes.FirstOrDefault();
-                if (selectedRecipe != null)
-                {
-                    Navigation.PushAsync(new RecipeInfo(selectedRecipe));
-                    ((CollectionView)sender).SelectedItem = null;
-                }
-            }
-        }
-        else if (e.SelectedItem is Recipe selectedRecipe)
-        {
-            Navigation.PushAsync(new RecipeInfo(selectedRecipe));
-            ((CollectionView)sender).SelectedItem = null;
-        }
-    }
-
     private void FilterButton_Clicked(object sender, EventArgs e)
     {
         DisplayAlert("Filter", "Filter options will be added later", "OK");
@@ -44,6 +23,7 @@ public partial class RecipeList : ContentPage
         Navigation.PushAsync(new RecipeInfo());
     }
 
+    //gets the recipe selected from the collection view and passes it to the RecipeInfo page
     private void Recipe_Selected(object sender, SelectionChangedEventArgs e) 
     {
         var selectedRecipe = e.CurrentSelection.FirstOrDefault() as Recipe;
