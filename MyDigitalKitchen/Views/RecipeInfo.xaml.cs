@@ -31,6 +31,8 @@ public partial class RecipeInfo : ContentPage
                 .ToList();
 
             InstructionsList.ItemsSource = instructions;
+
+            FavoriteButton.Text = CurrentRecipe.IsFavorite ? "Unfavorite" : "Favorite ";
         }
     }
 
@@ -40,8 +42,21 @@ public partial class RecipeInfo : ContentPage
         DisplayAlert("Edit", "Edit options will be added later", "OK");
     }
 
+    //Allows the user to favorite the current recipe that is saved
     private void FavoriteButton_Clicked(object sender, EventArgs e)
     {
-        DisplayAlert("Favorite", "Favorite options will be added later", "OK");
+
+        if (CurrentRecipe != null) 
+        {
+            CurrentRecipe.IsFavorite = !CurrentRecipe.IsFavorite;
+
+            //will be needed to save the updated recipe  status to the app's storage data
+            //RecipeRepository.Instance.UpdateRecipe(CurrentRecipe);
+
+            FavoriteButton.Text = CurrentRecipe.IsFavorite ? "Unfavorite" : "Favorite ";
+
+           
+        }
+
     }
 }

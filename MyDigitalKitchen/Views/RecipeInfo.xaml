@@ -36,10 +36,9 @@
                 <!--This Button is to favorite a recipe-->
                 <Button
                     x:Name="FavoriteButton"
-                    Background="Red"
                     TextColor="White"
                     FontAttributes="Bold"
-                    Text="Favorite ♡"
+                    Text="Favorite"
                     Grid.Column="1"
                     Clicked="FavoriteButton_Clicked"/>
             </Grid>
@@ -100,7 +99,13 @@
 
 
 
-
+      <!--The button to delete a recipe-->
+        <Button
+            x:Name="deleteButton"
+            Text="Delete"
+            TextColor="White"
+            BackgroundColor="Red"
+            HorizontalOptions="FillAndExpand"/>
 
     </VerticalStackLayout>
 </ContentPage>

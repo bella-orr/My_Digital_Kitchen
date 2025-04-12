@@ -66,11 +66,12 @@
                 <CollectionView 
                 x:Name="RecentRecipiesList"
                 HeightRequest="150"
-                HorizontalOptions="FillAndExpand">
+                HorizontalOptions="FillAndExpand"
+                    SelectionMode="Single">
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
                             <!-- This will display the recipe-->
-                            <Label Text="{Binding Recipe.Title}" FontSize="16" />
+                            <Label Text="{Binding Title}" FontSize="16" />
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
 
@@ -94,11 +95,12 @@
                 <CollectionView 
                 x:Name="FavoriteRecipiesList"
                 HeightRequest="150"
-                HorizontalOptions="FillAndExpand">
+                HorizontalOptions="FillAndExpand"
+                SelectionMode="Single">
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
                             <!--This will display the recipes that are favorited-->
-                            <Label Text="{Binding Recipe.Title}" FontSize="16" />
+                            <Label Text="{Binding Title}" FontSize="16" />
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
                 </CollectionView>
