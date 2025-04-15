@@ -47,8 +47,6 @@ namespace MyDigitalKitchen
                 // Updates the recipe in the repository to save the change
                 RecipeRepository.Instance.UpdateRecipe(selectedRecipe);
 
-              
-
 
                 // Navigates to the recipe details page
                 Navigation.PushAsync(new RecipeInfo(selectedRecipe));
@@ -61,11 +59,13 @@ namespace MyDigitalKitchen
             DisplayAlert("Search", "Search options will be added later", "OK");
         }
 
+        //toggles to thr RecipeList page
         private void nextButton_Clicked(object sender, EventArgs e)
         {
             Navigation.PushAsync(new RecipeList());
         }
 
+        //toggles to the AddPage
         private void addButton_Clicked(object sender, EventArgs e)
         {
             Navigation.PushAsync(new AddPage());

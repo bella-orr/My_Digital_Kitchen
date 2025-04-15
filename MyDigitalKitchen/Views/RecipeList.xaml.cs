@@ -20,7 +20,6 @@ public partial class RecipeList : ContentPage
     }
 
 
-
     //gets the recipe selected from the collection view and passes it to the RecipeInfo page
     private void Recipe_Selected(object sender, SelectionChangedEventArgs e) 
     {
