@@ -1,5 +1,5 @@
 using MyDigitalKitchen.Models;
-
+using MyDigitalKitchen.Models.ViewModels;
 namespace MyDigitalKitchen;
 
 public partial class RecipeInfo : ContentPage
@@ -11,6 +11,11 @@ public partial class RecipeInfo : ContentPage
         InitializeComponent();
         CurrentRecipe = recipe;
         BindingContext = this; 
+
+        CurrentRecipe.LastAccessed = DateTime.Now;
+        RecipeRepository.Instance.UpdateRecipe(CurrentRecipe);
+
+        BindingContext = this;
         UpdateUI();
     }
 
@@ -33,9 +38,12 @@ public partial class RecipeInfo : ContentPage
             InstructionsList.ItemsSource = instructions;
 
             FavoriteButton.Text = CurrentRecipe.IsFavorite ? "Unfavorite" : "Favorite ";
+
+            
         }
     }
 
+ 
     //Set up for the Edit button which will be implemented later
     private void EditButton_Clicked(object sender, EventArgs e)
     {

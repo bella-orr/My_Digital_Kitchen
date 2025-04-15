@@ -70,8 +70,10 @@
                     SelectionMode="Single">
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
-                            <!-- This will display the recipe-->
-                            <Label Text="{Binding Title}" FontSize="16" />
+                            <ScrollView>
+                                <!-- This will display the recipe-->
+                                <Label Text="{Binding Title}" FontSize="16" />
+                            </ScrollView>
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
 

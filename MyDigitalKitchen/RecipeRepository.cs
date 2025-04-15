@@ -41,6 +41,7 @@ namespace MyDigitalKitchen
         public void AddRecipe(Recipe recipe)
         {
             recipe.Id = _nextId++;
+            recipe.LastAccessed = DateTime.Now;
             _recipes.Add(recipe);
         }
 
@@ -53,6 +54,8 @@ namespace MyDigitalKitchen
                 int index = _recipes.IndexOf(existingRecipe);
                 _recipes[index] = recipe;
             }
+
+            //at somepoint we will need to update the recipe in the database
         }
 
         // Delete a Recipe
@@ -83,7 +86,10 @@ namespace MyDigitalKitchen
         // Get Recently Accessed Recipes (Top 5)
         public ObservableCollection<Recipe> GetRecentlyAccessed()
         {
-            return new ObservableCollection<Recipe>(_recipes.OrderByDescending(r => r.LastAccessed).Take(5).ToObservableCollection());
+            return new ObservableCollection<Recipe>(
+                _recipes.OrderByDescending(r => r.LastAccessed)
+                .Take(5)
+                .ToObservableCollection());
         }
 
         // Get Recipes by Meal Type

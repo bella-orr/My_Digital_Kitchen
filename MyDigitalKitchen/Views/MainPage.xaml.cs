@@ -29,6 +29,11 @@ namespace MyDigitalKitchen
                 .ToList();
 
             FavoriteRecipiesList.ItemsSource = favRecipes;
+
+            //Loads the recently accessed recipes
+            var recentRecipes = RecipeRepository.Instance.GetRecentlyAccessed();
+            RecentRecipiesList.ItemsSource = recentRecipes;
+
         }
 
         //checks to see if a recipe was selected
@@ -36,8 +41,18 @@ namespace MyDigitalKitchen
         {
             if (e.CurrentSelection.FirstOrDefault() is Recipe selectedRecipe)
             {
+                // Updates the LastAccessed property when the recipe is accessed
+                selectedRecipe.LastAccessed = DateTime.Now;
+
+                // Updates the recipe in the repository to save the change
+                RecipeRepository.Instance.UpdateRecipe(selectedRecipe);
+
+              
+
+
+                // Navigates to the recipe details page
                 Navigation.PushAsync(new RecipeInfo(selectedRecipe));
-                ((CollectionView)sender).SelectedItem = null;
+               
             }
         }
 

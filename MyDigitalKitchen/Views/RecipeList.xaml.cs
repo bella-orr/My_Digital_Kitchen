@@ -27,6 +27,7 @@ public partial class RecipeList : ContentPage
         var selectedRecipe = e.CurrentSelection.FirstOrDefault() as Recipe;
         if (selectedRecipe != null) 
         {
+
             Navigation.PushAsync(new RecipeInfo(selectedRecipe));
 
             // Deselect the item after navigation
