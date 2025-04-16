@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MyDigitalKitchen.Views.EditPage"
+             Title="Edit Recipe">
+    <VerticalStackLayout Padding="30,0"
+    Spacing="25" HorizontalOptions="FillAndExpand"
+    VerticalOptions="FillAndExpand">
+
+
+        <Label
+            x:Name="TitleLabel"
+            Text="Title: "
+            FontAttributes="Bold"/>
+
+        <!--These are for the entries for the different components of the recipe-->
+        <Entry
+             x:Name="RecipeNameEntry"
+             Placeholder="eg. Pancakes"
+             PlaceholderColor="Gray"
+             HorizontalOptions="FillAndExpand" />
+
+        <Label
+             x:Name="CategoryLabel"
+             Text="Category: "
+             FontAttributes="Bold"/>
+        <Entry
+              x:Name="CategoryEntry"
+              Placeholder="eg. Breakfast"
+              PlaceholderColor="Gray"
+              HorizontalOptions="FillAndExpand" />
+        <Label
+              x:Name="IngredientsLabel"
+              Text="Ingredients: "
+              FontAttributes="Bold"/>
+        <Editor
+           x:Name="IngredientsEditor"
+           Placeholder="eg. 2 eggs, 1 cup flour..."
+           PlaceholderColor="Gray"
+           HeightRequest="100"
+           HorizontalOptions="FillAndExpand" />
+
+        <Label
+          x:Name="InstructionsLabel"
+          Text="Instructions: "
+          FontAttributes="Bold"/>
+        <Editor
+           x:Name="InstructionsEditor"
+           Placeholder="eg. Mix flour, sugar, and baking powder..."
+           PlaceholderColor="Gray"
+           HeightRequest="100"
+           HorizontalOptions="FillAndExpand" />
+
+        <!--This button is for the user to save the recipe-->
+        <Button
+        x:Name="updateButton"
+        Text="Save"
+        HorizontalOptions="FillAndExpand"
+        Clicked="updateButton_Clicked"/>
+
+        <!--This label will display the to the user if the recipe was saved or if the fields need to be filled out-->
+        <Label 
+        x:Name="outputLabel"
+        TextColor="Purple"
+        HorizontalOptions="FillAndExpand"
+        IsVisible="False"/>
+
+    </VerticalStackLayout>
+</ContentPage>

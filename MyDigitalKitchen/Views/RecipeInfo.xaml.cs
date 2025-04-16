@@ -1,6 +1,7 @@
 using MyDigitalKitchen.Models;
 using MyDigitalKitchen.Models.ViewModels;
 namespace MyDigitalKitchen;
+using MyDigitalKitchen.Views;
 
 public partial class RecipeInfo : ContentPage
 {
@@ -47,7 +48,7 @@ public partial class RecipeInfo : ContentPage
     //Set up for the Edit button which will be implemented later
     private void EditButton_Clicked(object sender, EventArgs e)
     {
-        DisplayAlert("Edit", "Edit options will be added later", "OK");
+        Navigation.PushAsync(new EditPage(CurrentRecipe));
     }
 
     //Allows the user to favorite the current recipe that is saved
