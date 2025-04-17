@@ -56,7 +56,22 @@ namespace MyDigitalKitchen
 
         private void SearchButton_Clicked(object sender, EventArgs e)
         {
-            DisplayAlert("Search", "Search options will be added later", "OK");
+            string search = SearchEntry.Text?.Trim().ToLower();
+
+            if (string.IsNullOrWhiteSpace(search))
+            {
+                // If query is empty, reload normal recents
+                LoadRecipes();
+                return;
+            }
+
+            var allRecipes = RecipeRepository.Instance.GetAllRecipes();
+            var matchingRecipes = allRecipes
+                .Where(r => !string.IsNullOrEmpty(r.Title) && r.Title.ToLower().Contains(search))
+                .OrderByDescending(r => r.LastAccessed)
+                .ToList();
+
+            RecentRecipiesList.ItemsSource = matchingRecipes;
         }
 
         //toggles to thr RecipeList page
