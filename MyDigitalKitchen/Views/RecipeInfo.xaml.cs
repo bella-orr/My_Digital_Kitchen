@@ -137,7 +137,15 @@ public partial class RecipeInfo : ContentPage, INotifyPropertyChanged
             // Save updated recipe.
             await _recipeRepository.UpdateRecipeAsync(CurrentRecipe);
 
-            // UI updates via binding.
+            if (CurrentRecipe.IsFavorite)
+            {
+                FavoriteButton.Text = "Unfavorite";
+            }
+            else
+            {
+                FavoriteButton.Text = "Favorite";
+            }
+
         }
     }
 
