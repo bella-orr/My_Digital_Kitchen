@@ -1,51 +1,122 @@
 using System.Collections.ObjectModel;
 using MyDigitalKitchen.Models;
 using MyDigitalKitchen.Models.ViewModels;
+using MyDigitalKitchen.Views;
+using MyDigitalKitchen;
+using System.Threading.Tasks;
+using Microsoft.Maui.Controls;
+using System.Linq;
 
 namespace MyDigitalKitchen;
 
 public partial class RecipeList : ContentPage
 {
-    public RecipeList()
+    private readonly RecipeListViewModel _viewModel; 
+    private readonly RecipeRepository _recipeRepository;
+
+   
+    public RecipeList(RecipeListViewModel viewModel, RecipeRepository recipeRepository)
     {
         InitializeComponent();
-     
-        BindingContext = new RecipeListViewModel();
+        _viewModel = viewModel;
+        _recipeRepository = recipeRepository; 
+        BindingContext = _viewModel; 
     }
 
-    //for the filter button, this will be implemented later
-    private void FilterButton_Clicked(object sender, EventArgs e)
+   
+    private async void FilterButton_Clicked(object sender, EventArgs e)
     {
-        DisplayAlert("Filter", "Filter options will be added later", "OK");
-    }
+        
+        string action = await DisplayActionSheet("Filter Recipes By:", "Cancel", null,
+            "All Recipes",
+            "Favorites",
+            "Meal Type"
+        
+        );
 
+        List<Recipe> filteredRecipes = new List<Recipe>();
 
-    //gets the recipe selected from the collection view and passes it to the RecipeInfo page
-    private void Recipe_Selected(object sender, SelectionChangedEventArgs e) 
-    {
-        var selectedRecipe = e.CurrentSelection.FirstOrDefault() as Recipe;
-        if (selectedRecipe != null) 
+        switch (action)
         {
+            case "All Recipes":
+                filteredRecipes = await _recipeRepository.GetAllRecipesAsync();
+                break;
 
-            Navigation.PushAsync(new RecipeInfo(selectedRecipe));
+            case "Favorites":
+                filteredRecipes = await _recipeRepository.GetFavoritesAsync();
+                break;
 
-            // Deselect the item after navigation
-            ((CollectionView)sender).SelectedItem = null; 
+            case "Meal Type":
+                
+                var allRecipesForMealTypes = await _recipeRepository.GetAllRecipesAsync();
+                var availableMealTypes = allRecipesForMealTypes
+                                         .Select(r => r.MealType)
+                                         .Where(mt => !string.IsNullOrWhiteSpace(mt))
+                                         .Distinct()
+                                         .OrderBy(mt => mt)
+                                         .ToList();
+
+                if (availableMealTypes.Any())
+                {
+                   
+                    availableMealTypes.Insert(0, "All Meal Types");
+
+                    string mealTypeAction = await DisplayActionSheet("Select Meal Type:", "Cancel", null,
+                        availableMealTypes.ToArray()
+                    );
+
+                    if (mealTypeAction == "All Meal Types")
+                    {
+                        filteredRecipes = await _recipeRepository.GetAllRecipesAsync();
+                    }
+                    else if (!string.IsNullOrEmpty(mealTypeAction) && mealTypeAction != "Cancel")
+                    {
+                        filteredRecipes = await _recipeRepository.GetRecipesByMealTypeAsync(mealTypeAction);
+                    }
+                   
+                }
+                else
+                {
+                    await DisplayAlert("Info", "No meal types available for filtering.", "OK");
+                    
+                    filteredRecipes = await _recipeRepository.GetAllRecipesAsync(); 
+                }
+                break;
+
+            default:
+                
+                filteredRecipes = await _recipeRepository.GetAllRecipesAsync(); 
+                break;
         }
 
         
+        _viewModel.GroupRecipes(filteredRecipes);
     }
 
-    //this will aloow the user to select the same recipe again if they toggle backwards. It clears the selction of the collection group of the letterList
-    protected override void OnAppearing()
+   
+    private async void Recipe_Selected(object sender, SelectionChangedEventArgs e)
     {
-        base.OnAppearing();
+        var selectedRecipe = e.CurrentSelection.FirstOrDefault() as Recipe;
+        if (selectedRecipe != null)
+        {
+            
+            await Shell.Current.GoToAsync($"{nameof(RecipeInfo)}?{nameof(Recipe.Id)}={selectedRecipe.Id}");
 
-        //resets the selected item in the outer CollectionView
-        LetterList.SelectedItem = null;
-
-        BindingContext = new RecipeListViewModel();
+           
+            ((CollectionView)sender).SelectedItem = null;
+        }
     }
 
     
+    protected override async void OnAppearing()
+    {
+        base.OnAppearing();
+
+       
+        LetterList.SelectedItem = null;
+
+        
+        var allRecipes = await _recipeRepository.GetAllRecipesAsync();
+        _viewModel.GroupRecipes(allRecipes);
+    }
 }

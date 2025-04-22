@@ -1,71 +1,153 @@
 using MyDigitalKitchen.Models;
 using MyDigitalKitchen.Models.ViewModels;
-namespace MyDigitalKitchen;
 using MyDigitalKitchen.Views;
+using MyDigitalKitchen;
+using System.Collections.ObjectModel;
+using System.Threading.Tasks;
+using Microsoft.Maui.Controls; 
+using System.Linq;
+using System.ComponentModel; 
 
-public partial class RecipeInfo : ContentPage
+namespace MyDigitalKitchen;
+
+
+[QueryProperty(nameof(RecipeId), nameof(Recipe.Id))]
+public partial class RecipeInfo : ContentPage, INotifyPropertyChanged 
 {
-
-    public Recipe CurrentRecipe { get; set; } 
-    public RecipeInfo(Recipe recipe)
+    
+    private Recipe _currentRecipe;
+    public Recipe CurrentRecipe
     {
-        InitializeComponent();
-        CurrentRecipe = recipe;
-        BindingContext = this; 
-
-        CurrentRecipe.LastAccessed = DateTime.Now;
-        RecipeRepository.Instance.UpdateRecipe(CurrentRecipe);
-
-        BindingContext = this;
-        UpdateUI();
+        get => _currentRecipe;
+        set
+        {
+            if (_currentRecipe != value)
+            {
+                _currentRecipe = value;
+                OnPropertyChanged(nameof(CurrentRecipe));
+               
+                UpdateInstructionsDisplayList();
+            }
+        }
     }
 
-    //Updates the UI with the current recipe's details
-    private void UpdateUI()
+   
+    private ObservableCollection<string> _instructionsDisplayList;
+    public ObservableCollection<string> InstructionsDisplayList
+    {
+        get => _instructionsDisplayList;
+        set
+        {
+            if (_instructionsDisplayList != value)
+            {
+                _instructionsDisplayList = value;
+                OnPropertyChanged(nameof(InstructionsDisplayList));
+            }
+        }
+    }
+
+
+    private readonly RecipeRepository _recipeRepository;
+
+   
+    public int RecipeId { get; set; }
+
+ 
+    public RecipeInfo(RecipeRepository recipeRepository)
+    {
+        InitializeComponent();
+        _recipeRepository = recipeRepository;
+       
+
+   
+    protected override async void OnNavigatedTo(NavigatedToEventArgs args)
+    {
+        base.OnNavigatedTo(args);
+
+        if (RecipeId > 0)
+        {
+            
+            CurrentRecipe = await _recipeRepository.GetRecipeByIdAsync(RecipeId);
+
+       
+            BindingContext = this;
+
+            
+            if (CurrentRecipe != null)
+            {
+                CurrentRecipe.LastAccessed = DateTime.Now;
+                await _recipeRepository.UpdateRecipeAsync(CurrentRecipe);
+            }
+        }
+        else
+        {
+            
+            Console.WriteLine("RecipeInfo navigated to without a valid RecipeId.");
+            await Shell.Current.GoToAsync("..");
+        }
+    }
+
+    
+    private void UpdateInstructionsDisplayList()
+    {
+        if (CurrentRecipe != null && !string.IsNullOrEmpty(CurrentRecipe.Directions))
+        {
+            var instructions = CurrentRecipe.Directions
+                .Split(new[] { '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries)
+                .Select(step => step.Trim())
+                .Where(step => !string.IsNullOrWhiteSpace(step))
+                .ToList();
+            InstructionsDisplayList = new ObservableCollection<string>(instructions);
+        }
+        else
+        {
+            InstructionsDisplayList = new ObservableCollection<string>();
+        }
+    }
+
+   
+    public event PropertyChangedEventHandler PropertyChanged;
+    protected void OnPropertyChanged(string propertyName)
+    {
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+    }
+
+    
+    private async void EditButton_Clicked(object sender, EventArgs e)
     {
         if (CurrentRecipe != null)
         {
-            dishTitle.Text = CurrentRecipe.Title;
+            
+            await Shell.Current.GoToAsync($"{nameof(EditPage)}?{nameof(Recipe.Id)}={CurrentRecipe.Id}");
+        }
+    }
 
-            ingredientsList.ItemsSource = CurrentRecipe.Ingredients;
+   
+    private async void FavoriteButton_Clicked(object sender, EventArgs e)
+    {
+        if (CurrentRecipe != null)
+        {
+            CurrentRecipe.IsFavorite = !CurrentRecipe.IsFavorite;
 
-            // Split the directions string into steps
-            var instructions = CurrentRecipe.Directions
-                .Split(new[] { '\n', '\r', ',' , '.' }, StringSplitOptions.RemoveEmptyEntries)
-                .Select(step => step.Trim()) // removes spaces before/after each step
-                .Where(step => !string.IsNullOrWhiteSpace(step))
-                .ToList();
-
-            InstructionsList.ItemsSource = instructions;
-
-            FavoriteButton.Text = CurrentRecipe.IsFavorite ? "Unfavorite" : "Favorite ";
+            await _recipeRepository.UpdateRecipeAsync(CurrentRecipe);
 
             
         }
     }
 
- 
-    //Set up for the Edit button which will be implemented later
-    private void EditButton_Clicked(object sender, EventArgs e)
+    
+    private async void deleteButton_Clicked(object sender, EventArgs e)
     {
-        Navigation.PushAsync(new EditPage(CurrentRecipe));
-    }
-
-    //Allows the user to favorite the current recipe that is saved
-    private void FavoriteButton_Clicked(object sender, EventArgs e)
-    {
-
-        if (CurrentRecipe != null) 
+        if (CurrentRecipe != null)
         {
-            CurrentRecipe.IsFavorite = !CurrentRecipe.IsFavorite;
+            bool confirmDelete = await DisplayAlert("Confirm Delete", $"Are you sure you want to delete '{CurrentRecipe.Title}'?", "Yes", "No");
 
-            //will be needed to save the updated recipe  status to the app's storage data
-            //RecipeRepository.Instance.UpdateRecipe(CurrentRecipe);
+            if (confirmDelete)
+            {
+                await _recipeRepository.DeleteRecipeAsync(CurrentRecipe.Id);
 
-            FavoriteButton.Text = CurrentRecipe.IsFavorite ? "Unfavorite" : "Favorite ";
-
-           
+                
+                await Shell.Current.GoToAsync(".."); 
         }
-
     }
 }

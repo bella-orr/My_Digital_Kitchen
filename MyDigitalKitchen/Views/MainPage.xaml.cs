@@ -1,97 +1,100 @@
 ﻿using MyDigitalKitchen.Views;
 using MyDigitalKitchen.Models;
 using MyDigitalKitchen.Models.ViewModels;
+using MyDigitalKitchen;
+using System.Threading.Tasks;
+using System.Linq;
+using Microsoft.Maui.Controls; 
 
 namespace MyDigitalKitchen
 {
     public partial class MainPage : ContentPage
     {
+        private readonly RecipeRepository _recipeRepository;
 
-        public MainPage()
+       
+        public MainPage(RecipeRepository recipeRepository)
         {
             InitializeComponent();
-            LoadRecipes();
+            _recipeRepository = recipeRepository;
 
             FavoriteRecipiesList.SelectionChanged += OnRecipeSelected;
             RecentRecipiesList.SelectionChanged += OnRecipeSelected;
         }
 
-
-        //Loads the recipes to the respective sections
-        private void LoadRecipes() 
+        
+        private async Task LoadRecipesAsync()
         {
-            var allRecipes = RecipeRepository.Instance.GetAllRecipes();
+            var allRecipes = await _recipeRepository.GetAllRecipesAsync();
 
-            //Loads the favorites
             var favRecipes = allRecipes
-                .Where(r => r.IsFavorite)
-                .OrderBy(r => r.Title)
-                .ToList();
+            .Where(r => r.IsFavorite)
+            .OrderBy(r => r.Title)
+            .ToList();
 
             FavoriteRecipiesList.ItemsSource = favRecipes;
 
-            //Loads the recently accessed recipes
-            var recentRecipes = RecipeRepository.Instance.GetRecentlyAccessed();
+            var recentRecipes = await _recipeRepository.GetRecentlyAccessedAsync();
             RecentRecipiesList.ItemsSource = recentRecipes;
-
         }
 
-        //checks to see if a recipe was selected
-        private void OnRecipeSelected(object sender, SelectionChangedEventArgs e)
+       
+        private async void OnRecipeSelected(object sender, SelectionChangedEventArgs e)
         {
             if (e.CurrentSelection.FirstOrDefault() is Recipe selectedRecipe)
             {
-                // Updates the LastAccessed property when the recipe is accessed
-                selectedRecipe.LastAccessed = DateTime.Now;
+               
+                selectedRecipe.LastAccessed = DateTime.Now;
 
-                // Updates the recipe in the repository to save the change
-                RecipeRepository.Instance.UpdateRecipe(selectedRecipe);
+               
+                await _recipeRepository.UpdateRecipeAsync(selectedRecipe);
 
+                
+                await Shell.Current.GoToAsync($"{nameof(RecipeInfo)}?{nameof(Recipe.Id)}={selectedRecipe.Id}");
+                
 
-                // Navigates to the recipe details page
-                Navigation.PushAsync(new RecipeInfo(selectedRecipe));
-               
+               
+                ((CollectionView)sender).SelectedItem = null;
             }
         }
 
-        private void SearchButton_Clicked(object sender, EventArgs e)
+       
+        private async void SearchButton_Clicked(object sender, EventArgs e)
         {
             string search = SearchEntry.Text?.Trim().ToLower();
 
             if (string.IsNullOrWhiteSpace(search))
             {
-                // If query is empty, reload normal recents
-                LoadRecipes();
+                await LoadRecipesAsync();
                 return;
             }
 
-            var allRecipes = RecipeRepository.Instance.GetAllRecipes();
-            var matchingRecipes = allRecipes
-                .Where(r => !string.IsNullOrEmpty(r.Title) && r.Title.ToLower().Contains(search))
-                .OrderByDescending(r => r.LastAccessed)
-                .ToList();
-
-            RecentRecipiesList.ItemsSource = matchingRecipes;
+            var matchingRecipes = await _recipeRepository.SearchRecipesAsync(search);
+            var orderedMatchingRecipes = matchingRecipes.OrderByDescending(r => r.LastAccessed).ToList();
+            RecentRecipiesList.ItemsSource = orderedMatchingRecipes;
         }
 
-        //toggles to thr RecipeList page
-        private void nextButton_Clicked(object sender, EventArgs e)
+        
+        private async void nextButton_Clicked(object sender, EventArgs e)
         {
-            Navigation.PushAsync(new RecipeList());
+
+            await Shell.Current.GoToAsync(nameof(RecipeList));
+ 
         }
 
-        //toggles to the AddPage
-        private void addButton_Clicked(object sender, EventArgs e)
+
+        private async void addButton_Clicked(object sender, EventArgs e)
         {
-            Navigation.PushAsync(new AddPage());
+
+            await Shell.Current.GoToAsync(nameof(AddPage));
+           
         }
 
-        //forces the main page to reload withe the correct information
-        protected override void OnAppearing()
+
+        protected override async void OnAppearing()
         {
             base.OnAppearing();
-            LoadRecipes();
+            await LoadRecipesAsync();
         }
     }
-
 }

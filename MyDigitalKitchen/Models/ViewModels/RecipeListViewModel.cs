@@ -1,27 +1,25 @@
 ﻿using MyDigitalKitchen.Models;
 using System.Collections.ObjectModel;
 using System.Linq;
+using MyDigitalKitchen.Helpers;
+using System.Threading.Tasks;
 
 namespace MyDigitalKitchen.Models.ViewModels
 {
     public class RecipeListViewModel
     {
-        public ObservableCollection<RecipeGroup> GroupedRecipes { get; set; }
+       
+        public ObservableCollection<RecipeGroup> GroupedRecipes { get; set; } = new ObservableCollection<RecipeGroup>();
 
-        public RecipeListViewModel()
+       
+        
+        public void GroupRecipes(List<Recipe> recipesToGroup)
         {
-            GroupedRecipes = new ObservableCollection<RecipeGroup>();
-            LoadAndGroupRecipes();
-        }
+            GroupedRecipes.Clear(); // Clear existing groups
 
-        private void LoadAndGroupRecipes()
-        {
-            var allRecipes = RecipeRepository.Instance.GetAllRecipes(); // Get recipes from the repository
-            GroupedRecipes.Clear();
-
-            if (allRecipes != null && allRecipes.Any())
+            if (recipesToGroup != null && recipesToGroup.Any())
             {
-                var grouped = allRecipes
+                var grouped = recipesToGroup
                     .OrderBy(r => r.Title)
                     .GroupBy(r =>
                     {
@@ -44,13 +42,14 @@ namespace MyDigitalKitchen.Models.ViewModels
                         }
                     })
                     .Select(g => new RecipeGroup(g.Key, g.ToList()))
-                    .OrderBy(g => g.Letter == "#" ? 27 : g.Letter[0]);
+                    .OrderBy(g => g.Letter == "#" ? 27 : g.Letter[0]); 
 
                 foreach (var group in grouped)
                 {
-                    GroupedRecipes.Add(group);
+                    GroupedRecipes.Add(group); 
                 }
             }
         }
+
     }
 }

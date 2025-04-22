@@ -1,101 +1,146 @@
 ﻿using System.Collections.ObjectModel;
-using MyDigitalKitchen.Helpers;
 using MyDigitalKitchen.Models;
+using MyDigitalKitchen.Services;
+using SQLite;
+
 using System.Linq;
+using System.Text.Json; 
 
 namespace MyDigitalKitchen
 {
     public class RecipeRepository
     {
-        private static RecipeRepository _instance;
-        private ObservableCollection<Recipe> _recipes = new ObservableCollection<Recipe>();
-        private int _nextId = 1;
+        private readonly SQLiteAsyncConnection _dbConnection;
 
-        private RecipeRepository() { } // Private constructor for Singleton
-
-        public static RecipeRepository Instance
+        public RecipeRepository(DatabaseService databaseService)
         {
-            get
+            _dbConnection = databaseService.GetConnection();
+        }
+
+
+        private string SerializeIngredients(List<string> ingredients)
+        {
+            if (ingredients == null || !ingredients.Any())
+                return null;
+            
+            return string.Join(",", ingredients.Select(item => item.Replace(",", "&#44;")));
+        }
+
+        
+        private List<string> DeserializeIngredients(string ingredientsBlob)
+        {
+            if (string.IsNullOrEmpty(ingredientsBlob))
+                return new List<string>();
+            return ingredientsBlob.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
+                                  .Select(item => item.Replace("&#44;", ",").Trim())
+                                  .ToList();
+        }
+
+        
+
+        public async Task<List<Recipe>> GetAllRecipesAsync()
+        {
+            var recipes = await _dbConnection.Table<Recipe>().ToListAsync();
+            
+            foreach (var recipe in recipes)
             {
-                if (_instance == null)
-                {
-                    _instance = new RecipeRepository();
-                }
-                return _instance;
+                recipe.Ingredients = DeserializeIngredients(recipe.IngredientsBlob);
             }
+            return recipes;
         }
 
-        // Get All Recipes
-        public ObservableCollection<Recipe> GetAllRecipes()
+        public async Task<Recipe> GetRecipeByIdAsync(int id)
         {
-            return _recipes;
+            var recipe = await _dbConnection.Table<Recipe>().Where(r => r.Id == id).FirstOrDefaultAsync();
+            
+            if (recipe != null)
+            {
+                recipe.Ingredients = DeserializeIngredients(recipe.IngredientsBlob);
+            }
+            return recipe;
         }
 
-        // Get Recipe by ID
-        public Recipe GetRecipeById(int id)
+        public async Task AddRecipeAsync(Recipe recipe)
         {
-            return _recipes.FirstOrDefault(r => r.Id == id);
-        }
-
-        // Add a Recipe
-        public void AddRecipe(Recipe recipe)
-        {
-            recipe.Id = _nextId++;
+            
+            recipe.IngredientsBlob = SerializeIngredients(recipe.Ingredients);
             recipe.LastAccessed = DateTime.Now;
-            _recipes.Add(recipe);
+            await _dbConnection.InsertAsync(recipe);
         }
 
-        // Update a Recipe
-        public void UpdateRecipe(Recipe recipe)
+        public async Task UpdateRecipeAsync(Recipe recipe)
         {
-            var existingRecipe = _recipes.FirstOrDefault(r => r.Id == recipe.Id);
-            if (existingRecipe != null)
+            
+            recipe.IngredientsBlob = SerializeIngredients(recipe.Ingredients);
+            await _dbConnection.UpdateAsync(recipe);
+        }
+
+        public async Task DeleteRecipeAsync(int id)
+        {
+            await _dbConnection.DeleteAsync<Recipe>(id);
+        }
+
+        public async Task<List<Recipe>> SearchRecipesAsync(string keyword)
+        {
+            if (string.IsNullOrWhiteSpace(keyword))
             {
-                int index = _recipes.IndexOf(existingRecipe);
-                _recipes[index] = recipe;
+                return await GetAllRecipesAsync();
             }
 
-            //at somepoint we will need to update the recipe in the database
-        }
+            
+            var results = await _dbConnection.Table<Recipe>()
+                .Where(r => (!string.IsNullOrEmpty(r.Title) && r.Title.ToLower().Contains(keyword.ToLower())) ||
+                            (!string.IsNullOrEmpty(r.IngredientsBlob) && r.IngredientsBlob.ToLower().Contains(keyword.ToLower()))) 
+                .ToListAsync();
 
-        // Delete a Recipe
-        public void DeleteRecipe(int id)
-        {
-            var recipeToRemove = _recipes.FirstOrDefault(r => r.Id == id);
-            if (recipeToRemove != null)
+            
+            foreach (var recipe in results)
             {
-                _recipes.Remove(recipeToRemove);
+                recipe.Ingredients = DeserializeIngredients(recipe.IngredientsBlob);
             }
+
+            return results;
         }
 
-        // Search Recipes by Keyword
-        public ObservableCollection<Recipe> SearchRecipes(string keyword)
+        public async Task<List<Recipe>> GetFavoritesAsync()
         {
-            return new ObservableCollection<Recipe>(_recipes.Where(r =>
-                r.Title.Contains(keyword, StringComparison.OrdinalIgnoreCase) ||
-                r.Ingredients.Any(i => i.Contains(keyword, StringComparison.OrdinalIgnoreCase))
-            ));
+            var recipes = await _dbConnection.Table<Recipe>().Where(r => r.IsFavorite).ToListAsync();
+            
+            foreach (var recipe in recipes)
+            {
+                recipe.Ingredients = DeserializeIngredients(recipe.IngredientsBlob);
+            }
+            return recipes;
         }
 
-        // Get Favorite Recipes
-        public ObservableCollection<Recipe> GetFavorites()
+        public async Task<List<Recipe>> GetRecentlyAccessedAsync()
         {
-            return new ObservableCollection<Recipe>(_recipes.Where(r => r.IsFavorite));
-        }
-
-        // Get Recently Accessed Recipes (Top 5)
-        public ObservableCollection<Recipe> GetRecentlyAccessed()
-        {
-            return new ObservableCollection<Recipe>(
-                _recipes.OrderByDescending(r => r.LastAccessed)
+            var recipes = await _dbConnection.Table<Recipe>()
+                .OrderByDescending(r => r.LastAccessed)
                 .Take(5)
-                .ToObservableCollection());
+                .ToListAsync();
+
+           
+            foreach (var recipe in recipes)
+            {
+                recipe.Ingredients = DeserializeIngredients(recipe.IngredientsBlob);
+            }
+            return recipes;
         }
 
-        // Get Recipes by Meal Type
-        public ObservableCollection<Recipe> GetRecipesByMealType(string mealType)
+        public async Task<List<Recipe>> GetRecipesByMealTypeAsync(string mealType)
         {
-            return new ObservableCollection<Recipe>(_recipes.Where(r => r.MealType == mealType));
+            if (string.IsNullOrWhiteSpace(mealType))
+            {
+                return new List<Recipe>();
+            }
+            var recipes = await _dbConnection.Table<Recipe>().Where(r => r.MealType == mealType).ToListAsync();
+            
+            foreach (var recipe in recipes)
+            {
+                recipe.Ingredients = DeserializeIngredients(recipe.IngredientsBlob);
+            }
+            return recipes;
         }
     }
 }

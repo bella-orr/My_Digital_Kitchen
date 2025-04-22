@@ -4,48 +4,33 @@
              x:Class="MyDigitalKitchen.RecipeInfo"
              Title="Recipe Info">
 
-
     <VerticalStackLayout Padding="30,0"
-        Spacing="25" HorizontalOptions="FillAndExpand"
-        VerticalOptions="FillAndExpand">
+                         Spacing="25" HorizontalOptions="FillAndExpand"
+                         VerticalOptions="FillAndExpand">
 
+        <Grid ColumnDefinitions="*, Auto, Auto" RowDefinitions="Auto" HorizontalOptions="FillAndExpand">
+            <Label
+                x:Name="dishTitle"
+                Text="{Binding CurrentRecipe.Title}"
+                FontAttributes="Bold"           FontSize="Medium"               Grid.Column="0"                 VerticalOptions="Center"/>
+            <Button
+                x:Name="FavoriteButton"
+                TextColor="White"
+                FontAttributes="Bold"
+                Text="{Binding CurrentRecipe.IsFavorite, StringFormat='\{0:Favorite;Unfavorite\}'}"
+                Grid.Column="1"                 VerticalOptions="Center"        Clicked="FavoriteButton_Clicked"/>
 
+            <Button
+                x:Name="EditButton"
+                Text="Edit"
+                Background="LightBlue"
+                TextColor="Black"
+                Clicked="EditButton_Clicked"
+                FontAttributes="Bold"
+                Grid.Column="2"
+                VerticalOptions="Center"/>
+        </Grid>
 
-        <!--This label will display the chose recipe the user selected-->
-      
-            <Grid ColumnDefinitions="*, Auto, Auto" RowDefinitions="Auto" HorizontalOptions="FillAndExpand">
-                <Label 
-                    x:Name="dishTitle"
-                    Text=""
-                    FontAttributes="Bold"
-                    FontSize="Medium"
-                    Grid.Column="0"
-                    />
-
-
-                <!--This button is for when the user to edit the recipe-->
-                <Button 
-                    x:Name="EditButton"
-                    Text="Edit"
-                    Background="LightBlue"
-                    TextColor="Black"
-                    Clicked="EditButton_Clicked"
-                    FontAttributes="Bold"
-                    Grid.Column="2"/>
-
-                <!--This Button is to favorite a recipe-->
-                <Button
-                    x:Name="FavoriteButton"
-                    TextColor="White"
-                    FontAttributes="Bold"
-                    Text="Favorite"
-                    Grid.Column="1"
-                    Clicked="FavoriteButton_Clicked"/>
-            </Grid>
-
-     
-
-        <!---This will create the section for ingredients list of the chosen recipe-->
         <Label
              x:Name="IngerdientsLabel"
              Text="Ingredients"
@@ -57,22 +42,19 @@
             <Border.StrokeShape>
                 <RoundRectangle CornerRadius="10"/>
             </Border.StrokeShape>
-            <CollectionView 
-                    x:Name="ingredientsList"
-                    HeightRequest="150"
-                    HorizontalOptions="FillAndExpand">
+            <CollectionView
+                       x:Name="ingredientsList"
+                       ItemsSource="{Binding CurrentRecipe.Ingredients}"
+                       HeightRequest="150"
+                       HorizontalOptions="FillAndExpand">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <!--Displays the llist of ingredients-->
                         <Label Text="{Binding .}" FontSize="16" />
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
-
             </CollectionView>
-
         </Border>
 
-        <!---This section shows the instructions for the chose recipe-->
         <Label
              x:Name="instructionsLabel"
              Text="Instructions"
@@ -84,28 +66,25 @@
             <Border.StrokeShape>
                 <RoundRectangle CornerRadius="10"/>
             </Border.StrokeShape>
-            <CollectionView 
+            <CollectionView
                 x:Name="InstructionsList"
+                ItemsSource="{Binding InstructionsDisplayList}"
                 HeightRequest="150"
                 HorizontalOptions="FillAndExpand">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <!--Displays the instructions-->
                         <Label Text="{Binding .}" FontSize="16" />
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
         </Border>
 
-
-
-      <!--The button to delete a recipe-->
         <Button
             x:Name="deleteButton"
             Text="Delete"
             TextColor="White"
             BackgroundColor="Red"
-            HorizontalOptions="FillAndExpand"/>
-
+            HorizontalOptions="FillAndExpand"
+            Clicked="deleteButton_Clicked"/>
     </VerticalStackLayout>
 </ContentPage>

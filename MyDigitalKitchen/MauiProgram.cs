@@ -1,4 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
+using MyDigitalKitchen.Services;
+using MyDigitalKitchen.Models.ViewModels;
+using MyDigitalKitchen.Views; 
 
 namespace MyDigitalKitchen
 {
@@ -15,11 +18,30 @@ namespace MyDigitalKitchen
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                 });
 
+           
+            builder.Services.AddSingleton<DatabaseService>();
+            builder.Services.AddSingleton<RecipeRepository>();
+
+            
+            builder.Services.AddTransient<MainPage>();
+            builder.Services.AddTransient<AddPage>();
+            builder.Services.AddTransient<EditPage>();
+            builder.Services.AddTransient<RecipeInfo>();
+            builder.Services.AddTransient<RecipeList>();
+            builder.Services.AddTransient<RecipeListViewModel>();
+
+
 #if DEBUG
-    		builder.Logging.AddDebug();
+            builder.Logging.AddDebug();
 #endif
 
-            return builder.Build();
+            var app = builder.Build();
+
+            
+            var dbService = app.Services.GetService<DatabaseService>();
+            Task.Run(() => dbService.Init()).Wait(); 
+
+            return app;
         }
     }
 }
