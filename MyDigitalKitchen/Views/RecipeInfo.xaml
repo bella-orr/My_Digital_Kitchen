@@ -17,7 +17,7 @@
                 x:Name="FavoriteButton"
                 TextColor="White"
                 FontAttributes="Bold"
-                Text="{Binding CurrentRecipe.IsFavorite, StringFormat='\{0:Favorite;Unfavorite\}'}"
+                Text="Favorite"
                 Grid.Column="1"                 VerticalOptions="Center"        Clicked="FavoriteButton_Clicked"/>
 
             <Button
