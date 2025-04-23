@@ -80,6 +80,8 @@ public partial class RecipeInfo : ContentPage, INotifyPropertyChanged
             {
                  CurrentRecipe.LastAccessed = DateTime.Now;
                  await _recipeRepository.UpdateRecipeAsync(CurrentRecipe);
+
+                UpdateFavorietButtonText();
             }
         }
         else
@@ -137,16 +139,17 @@ public partial class RecipeInfo : ContentPage, INotifyPropertyChanged
             // Save updated recipe.
             await _recipeRepository.UpdateRecipeAsync(CurrentRecipe);
 
-            if (CurrentRecipe.IsFavorite)
-            {
-                FavoriteButton.Text = "Unfavorite";
-            }
-            else
-            {
-                FavoriteButton.Text = "Favorite";
-            }
+            UpdateFavorietButtonText();
+
 
         }
+    }
+
+    //updates the favorite button
+    private void UpdateFavorietButtonText() {
+        if (CurrentRecipe != null) {
+            FavoriteButton.Text = CurrentRecipe.IsFavorite ? "Unfavorite" : "Favorite";
+        }    
     }
 
     // Handles Delete button click.
